@@ -35,10 +35,12 @@ public class TradeOffsSampling {
     }
 
     private void runExperiment(int experiment) {
-        List<Double> probabilities = new ArrayList<>();
+        int numMajorities = 0;
+
         for (int i = 0; i < RUNS; i++) {
             initialize();
             int countPositive = 0;
+            int countNegative = 0;
 
             for (int j = 0; j < experiment; j++) {
                 int sample = pickSample(j);
@@ -46,19 +48,16 @@ public class TradeOffsSampling {
                 if (sample > 0) {
                     countPositive++;
                 }
+                else {
+                    countNegative++;
+                }
             }
 
-            probabilities.add((double)countPositive / experiment);
+            if (countPositive > countNegative) {
+                numMajorities++;
+            }
         }
-
-        double probabilitySum = 0;
-
-        for (Double x : probabilities) {
-            probabilitySum += x;
-        }
-
-        double avgProbability = probabilitySum / ((!probabilities.isEmpty()) ? probabilities.size() : 1);
-        System.out.println(avgProbability);
+        System.out.println((double) numMajorities / RUNS);
     }
 
     private int pickSample(int sizeModifier) {

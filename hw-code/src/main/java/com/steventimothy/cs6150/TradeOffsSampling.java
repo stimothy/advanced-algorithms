@@ -20,6 +20,7 @@ public class TradeOffsSampling {
         runExperiment(EXPERIMENT_1);
         runExperiment(EXPERIMENT_2);
         runExperiment(EXPERIMENT_3);
+        runExperiment(1100);
     }
 
     private void initialize() {
@@ -43,7 +44,7 @@ public class TradeOffsSampling {
             int countNegative = 0;
 
             for (int j = 0; j < experiment; j++) {
-                int sample = pickSample(j);
+                int sample = pickSample();
 
                 if (sample > 0) {
                     countPositive++;
@@ -60,8 +61,8 @@ public class TradeOffsSampling {
         System.out.println((double) numMajorities / RUNS);
     }
 
-    private int pickSample(int sizeModifier) {
-        int random = Math.abs(secureRandom.nextInt()) % (POPULATION - sizeModifier);
+    private int pickSample() {
+        int random = Math.abs(secureRandom.nextInt()) % POPULATION;
 
         return POOL.get(random);
     }
